@@ -33,6 +33,30 @@ var GameScene = new Phaser.Class({
 		// add random coins and bombs
 		this.gameitems = this.physics.add.group();
 
+		this.input.on('pointerdown', (pointer) => {
+			let x = pointer.x;
+			let y = pointer.y;
+			let centerX = this.cameras.main.width / 2;
+			let centerY = this.cameras.main.height / 2;
+	
+			let dx = x - centerX;
+			let dy = y - centerY;
+	
+			if (Math.abs(dx) > Math.abs(dy)) {
+				if (dx > 0) {
+					this.movePlayer(DIR_RIGHT);
+				} else {
+					this.movePlayer(DIR_LEFT);
+				}
+			} else {
+				if (dy > 0) {
+					this.movePlayer(DIR_DOWN);
+				} else {
+					this.movePlayer(DIR_UP);
+				}
+			}
+		});
+
         for (var i = 0; i < 20; i++) {
 			// parameters
             var x = Phaser.Math.RND.between(0, 800);
