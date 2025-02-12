@@ -33,29 +33,24 @@ var GameScene = new Phaser.Class({
 		// add random coins and bombs
 		this.gameitems = this.physics.add.group();
 
+		this.cursors = this.input.keyboard.createCursorKeys();
+
+		// Touch controls
 		this.input.on('pointerdown', (pointer) => {
-			let x = pointer.x;
-			let y = pointer.y;
-			let centerX = this.cameras.main.width / 2;
-			let centerY = this.cameras.main.height / 2;
-	
-			let dx = x - centerX;
-			let dy = y - centerY;
-	
-			if (Math.abs(dx) > Math.abs(dy)) {
-				if (dx > 0) {
-					this.movePlayer(DIR_RIGHT);
-				} else {
-					this.movePlayer(DIR_LEFT);
-				}
-			} else {
-				if (dy > 0) {
-					this.movePlayer(DIR_DOWN);
-				} else {
-					this.movePlayer(DIR_UP);
-				}
-			}
+			this.handleTouch(pointer);
 		});
+	
+		this.input.on('pointermove', function (pointer) {
+			let touchX = pointer.x;
+			let touchY = pointer.y;
+	
+			// Move player towards the touch position
+			let speed = 4; // Adjust speed for smoother movement
+			if (touchX < this.dude.x) this.dude.x -= speed;
+			if (touchX > this.dude.x) this.dude.x += speed;
+			if (touchY < this.dude.y) this.dude.y -= speed;
+			if (touchY > this.dude.y) this.dude.y += speed;
+		}, this);
 
         for (var i = 0; i < 20; i++) {
 			// parameters
@@ -117,6 +112,30 @@ var GameScene = new Phaser.Class({
 		// quit to menu button
 		this.btnquit = this.addButton(760, 40, 'sprites', this.doBack, this, 'btn_close_hl', 'btn_close', 'btn_close_hl', 'btn_close');
     },
+
+	handleTouch: function (pointer) {
+		let x = pointer.x;
+		let y = pointer.y;
+		let centerX = this.cameras.main.width / 2;
+		let centerY = this.cameras.main.height / 2;
+	
+		let dx = x - centerX;
+		let dy = y - centerY;
+	
+		if (Math.abs(dx) > Math.abs(dy)) {
+			if (dx > 0) {
+				this.movePlayer(DIR_RIGHT);
+			} else {
+				this.movePlayer(DIR_LEFT);
+			}
+		} else {
+			if (dy > 0) {
+				this.movePlayer(DIR_DOWN);
+			} else {
+				this.movePlayer(DIR_UP);
+			}
+		}
+	},
 
     update: function (time, delta)
     {
