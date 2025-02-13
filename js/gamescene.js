@@ -248,5 +248,3 @@ var GameScene = new Phaser.Class({
     }
 
 });
-
-
