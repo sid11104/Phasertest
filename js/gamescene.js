@@ -35,16 +35,16 @@ var GameScene = new Phaser.Class({
 
 		this.dude.setCollideWorldBounds(true);
 
-		// stats = new Stats();
-		// stats.showPanel(0); 
-		// document.body.appendChild(stats.dom);
+		stats = new Stats();
+		stats.showPanel(0); 
+		document.body.appendChild(stats.dom);
 			
 		// add random coins and bombs
 		this.gameitems = this.physics.add.group();
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 
-		fpsText = this.add.text(10, 10, 'FPS: 0', { fontSize: '16px', fill: '#ffffff' });
+		fpsText = this.add.text(10, 10, 'FPS: 0', { fontSize: '30px', fill: '#ffffff' });
 
 
 		// Touch controls
@@ -162,12 +162,12 @@ var GameScene = new Phaser.Class({
 		if (this.cursors.left.isDown)  this.movePlayer(DIR_LEFT);
 		if (this.cursors.right.isDown) this.movePlayer(DIR_RIGHT);
 
-	//	stats.begin();
+	    stats.begin();
 
 		let fps = Math.round(1000 / delta);
 		fpsText.setText('FPS: ' + fps);
 
-		//stats.end();
+		stats.end();
     },
 	
     doOverlapItem: function (dud, obj) {
